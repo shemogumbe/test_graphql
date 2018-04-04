@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, func
+from sqlalchemy import Column, String, Integer, ForeignKey, func, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -20,7 +20,7 @@ class Story(Base):
     __tablename__ = 'stories'
     id = Column(Integer, primary_key=True)
     story = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id))
+    user_id = Column(Integer, ForeignKey(User.id))
     created_at = Column(DateTime, default=func.now())
     
 
