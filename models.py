@@ -11,7 +11,7 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 def save(obj):
-    '''Function for saving model objects'''
+    '''Function for saving new objects'''
     db_session.add(obj)
     db_session.commit()
 
