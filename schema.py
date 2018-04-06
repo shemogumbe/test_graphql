@@ -2,7 +2,7 @@ import graphene
 
 from graphene import relay, Schema
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
-from models import User, Story, db_session
+from models import User, Story, save
 
 
 class UserType(SQLAlchemyObjectType):
@@ -23,10 +23,9 @@ class CreateStory(graphene.Mutation):
         user_id = graphene.Int()
     story = graphene.Field(StoryType)
 
-    def mutate(self, info, story, user_id):
-        story = Story(story=story, user_id=user_id)
-        db_session.add(story)
-        db_session.commit()
+    def mutate(self, info, **kwargs):
+        story = Story(**kwargs)
+        save(story)
 
         return CreateStory(story=story)
 
