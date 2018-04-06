@@ -10,6 +10,11 @@ Base = declarative_base()
 # needed for querying
 Base.query = db_session.query_property()
 
+def save(obj):
+    '''Function for saving model objects'''
+    db_session.add(obj)
+    db_session.commit()
+
 
 class User(Base):
     __tablename__ = 'users'
