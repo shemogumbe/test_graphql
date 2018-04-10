@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_graphql import GraphQLView
 from sqlalchemy import create_engine
+
 from sqlalchemy.orm import sessionmaker
 
 from schema import schema
@@ -24,4 +25,3 @@ def shutdown_session(exception=None):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
