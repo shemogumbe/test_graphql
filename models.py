@@ -2,6 +2,8 @@ from sqlalchemy import Column, String, Integer, ForeignKey, func, DateTime,creat
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+
+
 engine = create_engine('sqlite:///graph_db.sqlite', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
