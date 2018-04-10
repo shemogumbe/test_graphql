@@ -11,13 +11,7 @@ Base = declarative_base()
 Base.metadata.create_all(engine)
 Base.query = db_session.query_property()
 
-class UtilityMethods:
-    def save(self):
-        if not self.id:
-            db_session.add(self)
-        return db_session.commit()
-
-class User(Base, UtilityMethods):
+class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     first_name = Column(String)
@@ -28,7 +22,7 @@ class User(Base, UtilityMethods):
     stories = relationship('Story')
 
 
-class Story(Base,UtilityMethods):
+class Story(Base):
     __tablename__ = 'stories'
     id = Column(Integer, primary_key=True)
     story = Column(String)
