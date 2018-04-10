@@ -1,24 +1,25 @@
-from graphene import relay
-import graphene
-from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from models import User as UserModel, Story
 
-class User(SQLAlchemyObjectType):
+import graphene
+from graphene import relay
+from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+from models import User, Story
+
+class UserObject(SQLAlchemyObjectType):
     class Meta:
-        model = UserModel
+        model = User
         interfaces = (relay.Node, )
 
 
-class Story(SQLAlchemyObjectType):
+class StoryObject(SQLAlchemyObjectType):
     class Meta:
         model = Story
         interfaces = (relay.Node, )
+
+
 class Query(graphene.ObjectType):
-    node = relay.Node.Field()
-    users = SQLAlchemyConnectionField(User)
-    User_stories = SQLAlchemyConnectionField(Story)
-    find_user = graphene.relay.Node.Field(User)
-    
+    users = SQLAlchemyConnectionField(UserObject)
+    user_stories = SQLAlchemyConnectionField(StoryObject)
+    story = graphene.relay.Node.Field(StoryObject)
 
 
-schema = graphene.Schema(query=Query, types=[User,Story])
+schema = graphene.Schema(query=Query)
