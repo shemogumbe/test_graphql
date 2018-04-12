@@ -12,11 +12,15 @@ Base = declarative_base()
 # needed for querying
 Base.query = db_session.query_property()
 
+engine = create_engine("sqlite:///graph_db.sqlite", convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+Base.query = db_session.query_property()
+
 def save(obj):
     '''Function for saving new objects'''
-    db_session.add(obj)
-    db_session.commit()
-
+    db_session().add(obj)
+    db_session().commit()
 
 class User(Base):
     __tablename__ = 'users'
@@ -33,7 +37,7 @@ class Story(Base):
     __tablename__ = 'stories'
     id = Column(Integer, primary_key=True)
     story = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey(User.id))
     created_at = Column(DateTime, default=func.now())
     
 

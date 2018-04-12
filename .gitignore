@@ -1,3 +1,9 @@
+social/
+.vscode/
+.env
+graph_db.sqlite
+
+
 .DS_Store
 __pycache__/
 social/
