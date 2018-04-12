@@ -1,15 +1,16 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from graphene import relay, Schema, ObjectType, Mutation, String, Field, Boolean
-from models import User, Story, db_session, save
+from models import User, Story, save
 
 
-class UserType(SQLAlchemyObjectType):
+
+class UserObject(SQLAlchemyObjectType):
     class Meta:
         model = User
-        interfaces = (relay.Node,)
+        interfaces = (relay.Node, )
 
 class CreateUser(Mutation):
-  user = Field(UserType)
+  user = Field(UserObject)
 
   class Arguments:
     first_name = String()
@@ -25,19 +26,19 @@ class CreateUser(Mutation):
     ok = True
     return CreateUser(user=user, ok=ok)
 
-
-class StoryType(SQLAlchemyObjectType): 
+class StoryObject(SQLAlchemyObjectType):
     class Meta:
-        model = User
-        interfaces = (relay.Node,)
+        model = Story
+        interfaces = (relay.Node, )
 
-
-class Query(ObjectType):
-  node = relay.Node.Field()
-  all_user = SQLAlchemyConnectionField(UserType)
-
-class SocualMutations(ObjectType):
+class Mutations(ObjectType):
   create_user = CreateUser.Field()
 
+class Query(ObjectType):
+    users = SQLAlchemyConnectionField(UserObject)
+    user_stories = SQLAlchemyConnectionField(StoryObject)
+    story = relay.Node.Field(StoryObject)
 
-schema = Schema(query=Query, mutation=SocualMutations)
+
+schema = Schema(query=Query, mutation=Mutations)
+
